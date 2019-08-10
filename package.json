@@ -1,0 +1,39 @@
+{
+  "name": "curious-server",
+  "version": "0.0.1",
+  "description": "server for curious app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Videiraft/curious-server.git"
+  },
+  "author": "André Lellis, Fábio Videira, Florian Jost, Roberto Antunes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Videiraft/curious-server/issues"
+  },
+  "homepage": "https://github.com/Videiraft/curious-server#readme",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-json": "^1.4.0",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-load-plugins": "^2.0.1",
+    "husky": "^3.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "gulp lint"
+    }
+  },
+  "dependencies": {
+    "apollo-server": "^2.8.1",
+    "graphql": "^14.4.2",
+    "sequelize": "^5.13.0"
+  }
+}
