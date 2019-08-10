@@ -1,1 +1,1 @@
-# curious-server
+# curio.us-server
