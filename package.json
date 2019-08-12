@@ -33,7 +33,9 @@
   },
   "dependencies": {
     "apollo-server": "^2.8.1",
+    "dotenv": "^8.0.0",
     "graphql": "^14.4.2",
+    "pg": "^7.12.1",
     "sequelize": "^5.13.0"
   }
 }
