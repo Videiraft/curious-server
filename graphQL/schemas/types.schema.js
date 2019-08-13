@@ -3,7 +3,7 @@ module.exports = `
     id: ID!
     name: String!
     email: String!
-    jwtToken: String
+    token: String
     roadmaps: [Roadmap]!
   }
   type Roadmap {

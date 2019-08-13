@@ -1,10 +1,15 @@
 module.exports = `
   type Mutation {
-    createUser (
+    signup (
       name: String!
       email: String!
       password: String!
-    ): User
+    ): String
+
+    login (
+      email: String!
+      password: String!
+    ): String
 
     createRoadmap (
       title: String!
@@ -17,7 +22,7 @@ module.exports = `
       category: String
     ): Roadmap!
 
-    deleteRoadmap (id: ID!): Roadmap!
+    deleteRoadmap (id: ID!): Roadmap
 
     createTopic (
       title: String!
@@ -31,6 +36,19 @@ module.exports = `
       completed: Boolean
     ): Topic!
 
-    deleteTopic (id: ID!): Topic!
+    deleteTopic (id: ID!): Topic
+
+    createChecklistItem (
+     title: String! 
+    ): ChecklistItem!
+
+    updateChecklistItem (
+      id: ID!
+      title: String
+      completed: Boolean
+    ): ChecklistItem!
+
+    deleteChecklistItem (id: ID!): ChecklistItem
   }
+
 `;
