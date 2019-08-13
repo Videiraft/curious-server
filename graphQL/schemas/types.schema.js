@@ -7,10 +7,10 @@ module.exports = `
     roadmaps: [Roadmap]!
   }
   type Roadmap {
-    id: ID!
-    title: String!
-    category: String!
-    topics: [Topic]!
+    id: ID
+    title: String
+    category: String
+    topics: [Topic]
   }
   type Topic {
     id: ID!

@@ -23,9 +23,7 @@ exports.signup = async (obj, args) => {
     email: newUser.email,
   };
 
-  return {
-    token: jwt.sign(newUser, process.env.JWT_SECRET),
-  };
+  return jwt.sign(newUser, process.env.JWT_SECRET);
 };
 
 exports.login = async (obj, { email, password }) => {
@@ -40,12 +38,10 @@ exports.login = async (obj, { email, password }) => {
     email: user.email,
   };
 
-  return {
-    jwtToken: jwt.sign(user, process.env.JWT_SECRET),
-  };
+  return jwt.sign(user, process.env.JWT_SECRET);
 };
 
-exports.createRoadmap = async (obj, args, context) => {
+exports.createRoadmap = async (obj, args) => {
   const { title, category } = args;
   const roadmap = await db.Roadmaps.create({
     title, category,
@@ -54,19 +50,19 @@ exports.createRoadmap = async (obj, args, context) => {
   return { ...roadmap, topics: [] };
 };
 
-exports.updateRoadmap = async (obj, args, context) => {
-};
+// exports.updateRoadmap = async (obj, args, context) => {
+// };
 
-exports.deleteRoadmap = async (obj, args, context) => {};
+// exports.deleteRoadmap = async (obj, args, context) => {};
 
-exports.createTopic = async (obj, args, context) => {};
+// exports.createTopic = async (obj, args, context) => {};
 
-exports.updateTopic = async (obj, args, context) => {};
+// exports.updateTopic = async (obj, args, context) => {};
 
-exports.deleteTopic = async (obj, args, context) => {};
+// exports.deleteTopic = async (obj, args, context) => {};
 
-exports.createChecklistItem = async (obj, args, context) => {};
+// exports.createChecklistItem = async (obj, args, context) => {};
 
-exports.updateChecklistItem = async (obj, args, context) => {};
+// exports.updateChecklistItem = async (obj, args, context) => {};
 
-exports.deleteChecklistItem = async (obj, args, context) => {};
+// exports.deleteChecklistItem = async (obj, args, context) => {};

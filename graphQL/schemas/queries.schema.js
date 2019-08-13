@@ -1,5 +1,5 @@
 module.exports = `
   type Query {
-    user (email: String!, password: String!): User!
+    roadmaps (id: ID!): [Roadmap]
   }
 `;
