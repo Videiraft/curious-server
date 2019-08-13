@@ -1,6 +1,6 @@
 const db = require('../../models/index');
 
-exports.user = {
+exports.User = {
   roadmaps: (user) => db.Roadmaps.findAll({
     include: [{
       model: db.Users,
@@ -9,7 +9,7 @@ exports.user = {
   }),
 };
 
-exports.roadmap = {
+exports.Roadmap = {
   topics: (roadmap) => db.Topics.findAll({
     include: [{
       model: db.Roadmaps,
@@ -18,7 +18,7 @@ exports.roadmap = {
   }),
 };
 
-exports.topic = {
+exports.Topic = {
   checklist: (topic) => db.ChecklistItems.findAll({
     include: [{
       model: db.ChecklistItems,

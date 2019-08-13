@@ -1,37 +1,36 @@
 module.exports = `
   type Mutation {
+    createUser (
+      name: String!
+      email: String!
+      password: String!
+    ): User
+
     createRoadmap (
       title: String!
       category: String!
     ): Roadmap!
 
     updateRoadmap (
-      id: Int!
-      title: String!
-      category: String!
+      id: ID!
+      title: String
+      category: String
     ): Roadmap!
 
-    deleteRoadmap (id: Int!): Roadmap!
+    deleteRoadmap (id: ID!): Roadmap!
 
     createTopic (
       title: String!
     ): Topic!
 
     updateTopic (
-      id: Int!
+      id: ID!
       title: String
       description: String
       resources: String
       completed: Boolean
-      checklist: [ChecklistItem]
     ): Topic!
-    
-    deleteTopic (id: Int!): Topic!
 
-    createUser (
-      name: String!
-      email: String!
-      password: String!
-    ): User!
+    deleteTopic (id: ID!): Topic!
   }
 `;

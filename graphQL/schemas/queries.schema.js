@@ -1,5 +1,6 @@
 module.exports = `
   type Query {
-    user (id: Int!): [User]!
+    user (email: String!, password: String!): User!
+    userByToken (jwtToken: String!): User!
   }
 `;

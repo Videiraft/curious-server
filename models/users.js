@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     jwtToken: {
       type: DataTypes.STRING,
+      defaultValue: '',
     },
   });
 

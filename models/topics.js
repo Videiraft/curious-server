@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.STRING,
+      defaultValue: '',
     },
     completed: {
       type: DataTypes.BOOLEAN,
@@ -13,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     resources: {
       type: DataTypes.STRING,
+      defaultValue: '',
     },
   });
 

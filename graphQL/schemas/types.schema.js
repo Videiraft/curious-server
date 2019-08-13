@@ -1,19 +1,19 @@
 module.exports = `
   type User {
-    id: Int!
+    id: ID!
     name: String!
     email: String!
     jwtToken: String
     roadmaps: [Roadmap]!
   }
   type Roadmap {
-    id: Int!
+    id: ID!
     title: String!
     category: String!
     topics: [Topic]!
   }
   type Topic {
-    id: Int!
+    id: ID!
     title: String!
     description: String!
     resources: String!
@@ -21,7 +21,7 @@ module.exports = `
     checklist: [ChecklistItem]!
   }
   type ChecklistItem {
-    id: Int!
+    id: ID!
     title: String!
     completed: Boolean!
   }
