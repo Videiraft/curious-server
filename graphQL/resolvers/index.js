@@ -11,7 +11,7 @@ module.exports = {
     signup: mutations.signup,
     login: mutations.login,
     createRoadmap: mutations.createRoadmap,
-    // updateRoadmap: mutations.updateRoadmap,
+    updateRoadmap: mutations.updateRoadmap,
     // deleteRoadmap: mutations.deleteRoadmap,
     // createTopic: mutations.createTopic,
     // updateTopic: mutations.updateTopic,

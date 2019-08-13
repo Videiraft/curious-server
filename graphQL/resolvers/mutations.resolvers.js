@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { AuthenticationError } = require('apollo-server');
 const db = require('../../models/index');
 
 exports.signup = async (obj, args) => {
@@ -29,8 +30,8 @@ exports.signup = async (obj, args) => {
 exports.login = async (obj, { email, password }) => {
   let user = await db.Users.findOne({ where: { email } });
   if (!user) return console.log('user does not exist'); // eslint-disable-line no-console
-  const match = bcrypt.compare(password, user.password);
-  if (!match) return console.log('wrong password'); // eslint-disable-line no-console
+  const valid = bcrypt.compare(password, user.password);
+  if (!valid) return console.log('wrong password'); // eslint-disable-line no-console
 
   user = {
     id: user.id,
@@ -41,7 +42,8 @@ exports.login = async (obj, { email, password }) => {
   return jwt.sign(user, process.env.JWT_SECRET);
 };
 
-exports.createRoadmap = async (obj, args) => {
+exports.createRoadmap = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
   const { title, category } = args;
   const roadmap = await db.Roadmaps.create({
     title, category,
@@ -50,19 +52,38 @@ exports.createRoadmap = async (obj, args) => {
   return { ...roadmap, topics: [] };
 };
 
-// exports.updateRoadmap = async (obj, args, context) => {
-// };
+exports.updateRoadmap = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+  const { id, title, category } = args;
+  const updatedRoadmap = await db.Roadmaps.update({ title, category },
+    { where: { id } });
+  return updatedRoadmap;
+};
 
-// exports.deleteRoadmap = async (obj, args, context) => {};
+exports.deleteRoadmap = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.createTopic = async (obj, args, context) => {};
+exports.createTopic = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.updateTopic = async (obj, args, context) => {};
+exports.updateTopic = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.deleteTopic = async (obj, args, context) => {};
+exports.deleteTopic = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.createChecklistItem = async (obj, args, context) => {};
+exports.createChecklistItem = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.updateChecklistItem = async (obj, args, context) => {};
+exports.updateChecklistItem = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
 
-// exports.deleteChecklistItem = async (obj, args, context) => {};
+exports.deleteChecklistItem = async (obj, args, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+};
