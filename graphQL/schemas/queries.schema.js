@@ -1,5 +1,5 @@
 module.exports = `
   type Query {
-    roadmaps (userId: Int): [Roadmap]!
+    user (id: Int!): [User]!
   }
 `;

@@ -3,23 +3,22 @@ module.exports = `
     id: Int!
     name: String!
     email: String!
-    password: String!
     jwtToken: String
-    roadmaps: [Roadmap]
+    roadmaps: [Roadmap]!
   }
   type Roadmap {
     id: Int!
     title: String!
     category: String!
-    topics: [Topic]
+    topics: [Topic]!
   }
   type Topic {
     id: Int!
     title: String!
-    description: String
-    resources: String
+    description: String!
+    resources: String!
     completed: Boolean!
-    checklist: [ChecklistItem] 
+    checklist: [ChecklistItem]!
   }
   type ChecklistItem {
     id: Int!
