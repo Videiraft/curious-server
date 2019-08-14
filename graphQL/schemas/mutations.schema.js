@@ -12,7 +12,7 @@ module.exports = `
     ): String
 
     createRoadmap (
-      id: ID!
+      UserId: ID!
       title: String!
       category: String!
     ): Roadmap!
@@ -26,7 +26,7 @@ module.exports = `
     deleteRoadmap (id: ID!): String!
 
     createTopic (
-      id: ID!
+      RoadmapId: ID!
       title: String!
     ): Topic!
 
@@ -41,7 +41,7 @@ module.exports = `
     deleteTopic (id: ID!): String!
 
     createChecklistItem (
-      id: ID!
+      TopicId: ID!
       title: String! 
     ): ChecklistItem!
 
