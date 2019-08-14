@@ -18,7 +18,7 @@ module.exports = `
     description: String!
     resources: String!
     completed: Boolean!
-    checklist: [ChecklistItem]!
+    checklist: [ChecklistItem]
   }
   type ChecklistItem {
     id: ID!

@@ -21,7 +21,7 @@ exports.Roadmap = {
 exports.Topic = {
   checklist: (topic) => db.ChecklistItems.findAll({
     include: [{
-      model: db.ChecklistItems,
+      model: db.Topics,
       where: { id: topic.id },
     }],
   }),

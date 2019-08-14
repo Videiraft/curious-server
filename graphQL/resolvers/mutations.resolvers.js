@@ -3,10 +3,8 @@ const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server');
 const db = require('../../models/index');
 
-exports.signup = async (obj, args) => {
-  const { name, email, password } = args;
+exports.signup = async (obj, { name, email, password }) => {
   const user = await db.Users.findOne({ where: { email } });
-
   const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
   const hash = await bcrypt.hash(password, saltRounds);
 
@@ -42,48 +40,84 @@ exports.login = async (obj, { email, password }) => {
   return jwt.sign(user, process.env.JWT_SECRET);
 };
 
-exports.createRoadmap = async (obj, args, { user }) => {
+exports.createRoadmap = async (obj, { title, category }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
-  const { title, category } = args;
-  const roadmap = await db.Roadmaps.create({
-    title, category,
-  });
-
-  return { ...roadmap, topics: [] };
+  const UserId = user.id;
+  const roadmap = await db.Roadmaps.create({ title, category, UserId });
+  return { ...roadmap.dataValues, topics: [] };
 };
 
-exports.updateRoadmap = async (obj, args, { user }) => {
+exports.updateRoadmap = async (obj, { id, title, category }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
-  const { id, title, category } = args;
-  const updatedRoadmap = await db.Roadmaps.update({ title, category },
-    { where: { id } });
-  return updatedRoadmap;
+  const update = await db.Roadmaps.update({ title, category },
+    { where: { id }, returning: true });
+  return update[1][0].dataValues;
 };
 
-exports.deleteRoadmap = async (obj, args, { user }) => {
+exports.deleteRoadmap = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const deletion = await db.Roadmaps.destroy({ where: { id } });
+  if (!deletion) throw new Error('roadmap does not exist');
+  return 'roadmap deleted';
 };
 
-exports.createTopic = async (obj, args, { user }) => {
+exports.createTopic = async (obj, { id, title }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const RoadmapId = id;
+  const topic = await db.Topics.create({ title, RoadmapId });
+  return { ...topic.dataValues, checklist: [] };
 };
 
 exports.updateTopic = async (obj, args, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const {
+    id,
+    title,
+    description,
+    resources,
+    completed,
+  } = args;
+
+  const update = await db.Topics.update({
+    title,
+    description,
+    resources,
+    completed,
+  }, { where: { id }, returning: true });
+
+  return update[1][0].dataValues;
 };
 
-exports.deleteTopic = async (obj, args, { user }) => {
+exports.deleteTopic = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const deletion = await db.Topics.destroy({ where: { id } });
+  if (!deletion) throw new Error('topic does not exist');
+  return 'topic deleted';
 };
 
-exports.createChecklistItem = async (obj, args, { user }) => {
+exports.createChecklistItem = async (obj, { id, title }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const TopicId = id;
+  const checklistItem = await db.ChecklistItems.create({
+    title,
+    TopicId,
+  });
+  if (!checklistItem) {
+    throw new Error('Internal Server Error: Could not create ChecklistItem');
+  }
+  return { ...checklistItem.dataValues };
 };
 
-exports.updateChecklistItem = async (obj, args, { user }) => {
+exports.updateChecklistItem = async (obj, { id, title, completed }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const update = await db.ChecklistItems.update({ title, completed },
+    { where: { id }, returning: true });
+  return update[1][0].dataValues;
 };
 
-exports.deleteChecklistItem = async (obj, args, { user }) => {
+exports.deleteChecklistItem = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const deletion = await db.ChecklistItems.destroy({ where: { id } });
+  if (!deletion) throw new Error('checklist item does not exist');
+  return 'item deleted';
 };
