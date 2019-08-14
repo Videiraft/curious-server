@@ -40,9 +40,9 @@ exports.login = async (obj, { email, password }) => {
   return jwt.sign(user, process.env.JWT_SECRET);
 };
 
-exports.createRoadmap = async (obj, { title, category }, { user }) => {
+exports.createRoadmap = async (obj, { id, title, category }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
-  const UserId = user.id;
+  const UserId = id;
   const roadmap = await db.Roadmaps.create({ title, category, UserId });
   return { ...roadmap.dataValues, topics: [] };
 };

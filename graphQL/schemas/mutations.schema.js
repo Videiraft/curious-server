@@ -12,6 +12,7 @@ module.exports = `
     ): String
 
     createRoadmap (
+      id: ID!
       title: String!
       category: String!
     ): Roadmap!
