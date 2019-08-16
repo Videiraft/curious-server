@@ -23,7 +23,7 @@ module.exports = `
       category: String
     ): Roadmap!
 
-    deleteRoadmap (id: ID!): String!
+    deleteRoadmap (id: ID!): ID!
 
     createTopic (
       RoadmapId: ID!
@@ -38,11 +38,11 @@ module.exports = `
       completed: Boolean
     ): Topic!
 
-    deleteTopic (id: ID!): String!
+    deleteTopic (id: ID!): ID!
 
     createChecklistItem (
       TopicId: ID!
-      title: String! 
+      title: String!
     ): ChecklistItem!
 
     updateChecklistItem (
@@ -51,7 +51,7 @@ module.exports = `
       completed: Boolean
     ): ChecklistItem!
 
-    deleteChecklistItem (id: ID!): String
+    deleteChecklistItem (id: ID!): ID!
   }
 
 `;
