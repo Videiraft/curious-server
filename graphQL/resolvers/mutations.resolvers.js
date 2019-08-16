@@ -57,7 +57,7 @@ exports.deleteRoadmap = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
   const deletion = await db.Roadmaps.destroy({ where: { id } });
   if (!deletion) throw new Error('roadmap does not exist');
-  return 'roadmap deleted';
+  return id;
 };
 
 exports.createTopic = async (obj, { RoadmapId, title }, { user }) => {
@@ -90,7 +90,7 @@ exports.deleteTopic = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
   const deletion = await db.Topics.destroy({ where: { id } });
   if (!deletion) throw new Error('topic does not exist');
-  return 'topic deleted';
+  return id;
 };
 
 exports.createChecklistItem = async (obj, { TopicId, title }, { user }) => {
@@ -116,5 +116,5 @@ exports.deleteChecklistItem = async (obj, { id }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
   const deletion = await db.ChecklistItems.destroy({ where: { id } });
   if (!deletion) throw new Error('checklist item does not exist');
-  return 'item deleted';
+  return id;
 };
