@@ -28,6 +28,7 @@ module.exports = `
     createTopic (
       RoadmapId: ID!
       title: String!
+      rowNumber: Int!
     ): Topic!
 
     updateTopic (
@@ -36,6 +37,7 @@ module.exports = `
       description: String
       resources: String
       completed: Boolean
+      rowNumber: Int
     ): Topic!
 
     deleteTopic (id: ID!): ID!

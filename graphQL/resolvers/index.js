@@ -7,7 +7,6 @@ module.exports = {
   Query: {
     roadmaps: queries.roadmaps,
     topics: queries.topics,
-    allRoadmaps: queries.allRoadmaps,
   },
   Mutation: {
     signup: mutations.signup,

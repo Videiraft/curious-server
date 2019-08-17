@@ -60,9 +60,9 @@ exports.deleteRoadmap = async (obj, { id }, { user }) => {
   return id;
 };
 
-exports.createTopic = async (obj, { RoadmapId, title }, { user }) => {
+exports.createTopic = async (obj, { title, rowNumber, RoadmapId }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
-  const topic = await db.Topics.create({ title, RoadmapId });
+  const topic = await db.Topics.create({ title, rowNumber, RoadmapId });
   return { ...topic.dataValues, checklist: [] };
 };
 
@@ -74,6 +74,7 @@ exports.updateTopic = async (obj, args, { user }) => {
     description,
     resources,
     completed,
+    rowNumber,
   } = args;
 
   const update = await db.Topics.update({
@@ -81,6 +82,7 @@ exports.updateTopic = async (obj, args, { user }) => {
     description,
     resources,
     completed,
+    rowNumber,
   }, { where: { id }, returning: true });
 
   return update[1][0].dataValues;
