@@ -15,3 +15,8 @@ exports.topics = async (obj, args, { user }) => {
   const topics = await db.Topics.findAll({ where: { RoadmapId: args.id } });
   return topics;
 };
+
+exports.allRoadmaps = async () => {
+  const allRoadmaps = await db.Roadmaps.findAll();
+  return allRoadmaps;
+};
