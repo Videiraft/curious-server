@@ -3,10 +3,15 @@ const db = require('../../models/index');
 
 exports.roadmaps = async (obj, args, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  if (args.category) {
+    const roadmaps = await db.Roadmaps.findAll({ where: { category: args.category } });
+    return roadmaps;
+  }
   if (!args.id) {
     const allRoadmaps = await db.Roadmaps.findAll();
     return allRoadmaps;
   }
+
   if (args.id === String(user.id)) {
     const roadmaps = await db.Roadmaps.findAll({ where: { UserId: args.id } });
     return roadmaps;
