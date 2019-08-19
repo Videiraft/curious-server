@@ -14,7 +14,7 @@ exports.roadmaps = async (obj, args, { user }) => {
   if (args.title) {
     const regex = escapeRegexCharacters(args.title.trim());
     let roadmaps;
-    if (args.category === '' || args.category === 'Popular') {
+    if (args.category === '' || args.category === undefined) {
       roadmaps = await db.Roadmaps.findAll(
         {
           where: {
