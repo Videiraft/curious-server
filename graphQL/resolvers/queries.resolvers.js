@@ -11,20 +11,34 @@ function escapeRegexCharacters(str) {
 exports.roadmaps = async (obj, args, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
 
-  if (args.category && args.title) {
+  if (args.title) {
     const regex = escapeRegexCharacters(args.title.trim());
-    const roadmapsByCategory = await db.Roadmaps.findAll(
-      {
-        where: {
-          category: args.category,
-          title: {
-            [Op.iRegexp]: regex,
+    let roadmaps;
+    if (args.category === undefined || args.category === 'Popular') {
+      roadmaps = await db.Roadmaps.findAll(
+        {
+          where: {
+            title: {
+              [Op.iRegexp]: regex,
+            },
           },
         },
-      },
-    );
-    return roadmapsByCategory;
+      );
+    } else {
+      roadmaps = await db.Roadmaps.findAll(
+        {
+          where: {
+            category: args.category,
+            title: {
+              [Op.iRegexp]: regex,
+            },
+          },
+        },
+      );
+    }
+    return roadmaps;
   }
+
   if (args.category) {
     const roadmapsByCategory = await db.Roadmaps.findAll({ where: { category: args.category } });
     return roadmapsByCategory;
