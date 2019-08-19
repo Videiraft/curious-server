@@ -1,12 +1,27 @@
 const { AuthenticationError } = require('apollo-server');
+const Sequelize = require('sequelize');
 const db = require('../../models/index');
+
+const { Op } = Sequelize;
+
+function escapeRegexCharacters(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 exports.roadmaps = async (obj, args, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const regex = escapeRegexCharacters(args.title.trim());
 
   if (args.category && args.title) {
     const roadmapsByCategory = await db.Roadmaps.findAll(
-      { where: { category: args.category, title: args.title } },
+      {
+        where: {
+          category: args.category,
+          title: {
+            [Op.iRegexp]: regex,
+          },
+        },
+      },
     );
     return roadmapsByCategory;
   }
