@@ -10,9 +10,9 @@ function escapeRegexCharacters(str) {
 
 exports.roadmaps = async (obj, args, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
-  const regex = escapeRegexCharacters(args.title.trim());
 
   if (args.category && args.title) {
+    const regex = escapeRegexCharacters(args.title.trim());
     const roadmapsByCategory = await db.Roadmaps.findAll(
       {
         where: {
