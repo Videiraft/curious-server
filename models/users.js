@@ -12,9 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    jwtToken: {
-      type: DataTypes.STRING,
-    },
   });
 
   Users.associate = function associate(db) {

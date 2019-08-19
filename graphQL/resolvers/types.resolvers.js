@@ -1,7 +1,7 @@
 const db = require('../../models/index');
 
-exports.user = {
-  roadmaps: (user) => db.roadmaps.findAll({
+exports.User = {
+  roadmaps: (user) => db.Roadmaps.findAll({
     include: [{
       model: db.Users,
       where: { id: user.id },
@@ -9,8 +9,8 @@ exports.user = {
   }),
 };
 
-exports.roadmap = {
-  topics: (roadmap) => db.roadmaps.findAll({
+exports.Roadmap = {
+  topics: (roadmap) => db.Topics.findAll({
     include: [{
       model: db.Roadmaps,
       where: { id: roadmap.id },
@@ -18,10 +18,10 @@ exports.roadmap = {
   }),
 };
 
-exports.topic = {
-  checklist: (topic) => db.topics.findAll({
+exports.Topic = {
+  checklist: (topic) => db.ChecklistItems.findAll({
     include: [{
-      model: db.ChecklistItems,
+      model: db.Topics,
       where: { id: topic.id },
     }],
   }),

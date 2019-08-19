@@ -1,5 +1,6 @@
 module.exports = `
   type Query {
-    roadmaps (userId: Int): [Roadmap]!
+    roadmaps (id: ID, category: String, title: String): [Roadmap]
+    topics (RoadmapId: ID TopicId: ID): [Topic]
   }
-`;
+  `;

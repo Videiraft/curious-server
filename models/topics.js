@@ -6,13 +6,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.STRING,
+      defaultValue: '',
+    },
+    resources: {
+      type: DataTypes.STRING,
+      defaultValue: '',
     },
     completed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    resources: {
-      type: DataTypes.STRING,
+    rowNumber: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   });
 
