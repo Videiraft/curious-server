@@ -62,6 +62,13 @@ exports.deleteRoadmap = async (obj, { id }, { user }) => {
 
 exports.createTopic = async (obj, { title, rowNumber, RoadmapId }, { user }) => {
   if (!user) throw new AuthenticationError('You must be logged in');
+  const rowItems = await db.Topics.findAll({
+    where: {
+      RoadmapId,
+      rowNumber,
+    },
+  });
+  if (rowItems.length >= 5) throw new Error('Maximum number of topics per row reached');
   const topic = await db.Topics.create({ title, rowNumber, RoadmapId });
   return { ...topic.dataValues, checklist: [] };
 };
