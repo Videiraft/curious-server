@@ -17,6 +17,8 @@ exports.roadmaps = async (obj, args, { user }) => {
     if (args.category === '' || args.category === undefined) {
       roadmaps = await db.Roadmaps.findAll(
         {
+          offset: args.offset || 0,
+          limit: args.limit || 20,
           where: {
             title: {
               [Op.iRegexp]: regex,
@@ -27,6 +29,8 @@ exports.roadmaps = async (obj, args, { user }) => {
     } else {
       roadmaps = await db.Roadmaps.findAll(
         {
+          offset: args.offset || 0,
+          limit: args.limit || 20,
           where: {
             category: args.category,
             title: {
@@ -40,15 +44,26 @@ exports.roadmaps = async (obj, args, { user }) => {
   }
 
   if (args.category) {
-    const roadmapsByCategory = await db.Roadmaps.findAll({ where: { category: args.category } });
+    const roadmapsByCategory = await db.Roadmaps.findAll({
+      offset: args.offset || 0,
+      limit: args.limit || 20,
+      where: { category: args.category },
+    });
     return roadmapsByCategory;
   }
   if (!args.id) {
-    const allRoadmaps = await db.Roadmaps.findAll();
+    const allRoadmaps = await db.Roadmaps.findAll({
+      offset: args.offset || 0,
+      limit: args.limit || 20,
+    });
     return allRoadmaps;
   }
   if (args.id === String(user.id)) {
-    const roadmaps = await db.Roadmaps.findAll({ where: { UserId: args.id } });
+    const roadmaps = await db.Roadmaps.findAll({
+      offset: args.offset || 0,
+      limit: args.limit || 20,
+      where: { UserId: args.id },
+    });
     return roadmaps;
   }
   throw new Error('incorrect user');
