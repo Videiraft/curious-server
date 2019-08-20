@@ -11,6 +11,7 @@ module.exports = `
     title: String
     category: String
     topics: [Topic]
+    UserId: ID
   }
   type Topic {
     id: ID!
