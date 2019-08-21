@@ -54,6 +54,10 @@ module.exports = `
     ): ChecklistItem!
 
     deleteChecklistItem (id: ID!): ID!
+
+    copyRoadmap (
+      id: ID!
+    ): String
   }
 
 `;

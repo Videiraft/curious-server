@@ -28,7 +28,7 @@ exports.signup = async (obj, { name, email, password }) => {
 exports.login = async (obj, { email, password }) => {
   let user = await db.Users.findOne({ where: { email } });
   if (!user) return console.log('user does not exist'); // eslint-disable-line no-console
-  const valid = bcrypt.compare(password, user.password);
+  const valid = await bcrypt.compare(password, user.password);
   if (!valid) return console.log('wrong password'); // eslint-disable-line no-console
 
   user = {
@@ -126,4 +126,24 @@ exports.deleteChecklistItem = async (obj, { id }, { user }) => {
   const deletion = await db.ChecklistItems.destroy({ where: { id } });
   if (!deletion) throw new Error('checklist item does not exist');
   return id;
+};
+
+exports.copyRoadmap = async (obj, { id }, { user }) => {
+  if (!user) throw new AuthenticationError('You must be logged in');
+  const originalRoadmap = await db.Roadmaps.findOne({ where: { id } });
+  const originalTopics = await db.Topics.findAll({
+    where: { RoadmapId: originalRoadmap.id },
+    raw: true,
+  });
+  const copyRoadmap = await db.Roadmaps.create({
+    title: originalRoadmap.title,
+    category: originalRoadmap.category,
+    UserId: user.id,
+  });
+  const copyTopics = originalTopics.map((topic) => {
+    topic.RoadmapId = copyRoadmap.id; // eslint-disable-line no-param-reassign
+    delete topic.id; // eslint-disable-line no-param-reassign
+    return topic;
+  });
+  return db.Topics.bulkCreate(copyTopics);
 };

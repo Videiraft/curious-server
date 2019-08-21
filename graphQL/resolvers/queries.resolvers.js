@@ -13,63 +13,46 @@ exports.roadmaps = async (obj, args, { user }) => {
 
   if (args.title) {
     const regex = escapeRegexCharacters(args.title.trim());
-    let roadmaps;
-    if (args.category === '' || args.category === undefined) {
-      roadmaps = await db.Roadmaps.findAll(
-        {
-          offset: args.offset || 0,
-          limit: args.limit || 20,
-          where: {
-            title: {
-              [Op.iRegexp]: regex,
-            },
-          },
-        },
-      );
-    } else {
-      roadmaps = await db.Roadmaps.findAll(
-        {
-          offset: args.offset || 0,
-          limit: args.limit || 20,
-          where: {
-            category: args.category,
-            title: {
-              [Op.iRegexp]: regex,
-            },
-          },
-        },
-      );
-    }
-    return roadmaps;
+    const where = {
+      title: { [Op.iRegexp]: regex },
+    };
+    if (args.category) where.category = args.category;
+    return db.Roadmaps.findAll(
+      {
+        offset: args.offset || 0,
+        limit: args.limit || 20,
+        where,
+      },
+    );
   }
 
   if (args.category) {
-    const roadmapsByCategory = await db.Roadmaps.findAll({
+    return db.Roadmaps.findAll({
       offset: args.offset || 0,
       limit: args.limit || 20,
       where: { category: args.category },
     });
-    return roadmapsByCategory;
   }
+  // returns one roadmap by id
   if (args.id) {
     return db.Roadmaps.findAll({
       where: { id: args.id },
     });
   }
+  // returns all roadmaps
   if (!args.UserId) {
-    const allRoadmaps = await db.Roadmaps.findAll({
+    return db.Roadmaps.findAll({
       offset: args.offset || 0,
       limit: args.limit || 20,
     });
-    return allRoadmaps;
   }
+  // Return all roadmaps from the logedin user
   if (args.UserId === String(user.id)) {
-    const roadmaps = await db.Roadmaps.findAll({
+    return db.Roadmaps.findAll({
       offset: args.offset || 0,
       limit: args.limit || 20,
       where: { UserId: args.UserId },
     });
-    return roadmaps;
   }
   throw new Error('incorrect user');
 };

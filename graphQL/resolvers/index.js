@@ -20,6 +20,7 @@ module.exports = {
     createChecklistItem: mutations.createChecklistItem,
     updateChecklistItem: mutations.updateChecklistItem,
     deleteChecklistItem: mutations.deleteChecklistItem,
+    copyRoadmap: mutations.copyRoadmap,
   },
   User: types.User,
   Roadmap: types.Roadmap,
