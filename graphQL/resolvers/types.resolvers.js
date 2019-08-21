@@ -16,6 +16,9 @@ exports.Roadmap = {
       where: { id: roadmap.id },
     }],
   }),
+  user: (roadmap) => db.Users.findOne({
+    where: { id: roadmap.UserId },
+  }),
 };
 
 exports.Topic = {

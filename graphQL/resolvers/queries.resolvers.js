@@ -41,10 +41,11 @@ exports.roadmaps = async (obj, args, { user }) => {
   }
   // returns all roadmaps
   if (!args.UserId) {
-    return db.Roadmaps.findAll({
+    const test = await db.Roadmaps.findAll({
       offset: args.offset || 0,
       limit: args.limit || 20,
     });
+    return test;
   }
   // Return all roadmaps from the logedin user
   if (args.UserId === String(user.id)) {
