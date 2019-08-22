@@ -145,5 +145,6 @@ exports.copyRoadmap = async (obj, { id }, { user }) => {
     delete topic.id; // eslint-disable-line no-param-reassign
     return topic;
   });
-  return db.Topics.bulkCreate(copyTopics);
+  await db.Topics.bulkCreate(copyTopics);
+  return 'Done!';
 };
