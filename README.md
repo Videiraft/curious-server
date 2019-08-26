@@ -9,7 +9,7 @@ Curious is a web app to help you structure, organize and create long-term plans 
    
 ## Installation
 
-# Prerequisites:
+### Prerequisites:
 * Node.js (> v.12.0)
 
 To run the app please follow these instructions:
