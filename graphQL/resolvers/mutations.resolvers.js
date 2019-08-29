@@ -4,40 +4,39 @@ const { AuthenticationError } = require('apollo-server');
 const db = require('../../models/index');
 
 exports.signup = async (obj, { name, email, password }) => {
-  const user = await db.Users.findOne({ where: { email } });
-  const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
-  const hash = await bcrypt.hash(password, saltRounds);
-
-  if (user) {
-    console.log('email already exists'); // eslint-disable-line no-console
-    return null;
+  try {
+    const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+    const hash = await bcrypt.hash(password, saltRounds);
+    if (await db.Users.findOne({ where: { email } })) {
+      throw new AuthenticationError('An user with this email already exists.');
+    }
+    const newUser = await db.Users.create({
+      name, email, password: hash,
+    });
+    const responseUser = {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+    };
+    return jwt.sign(responseUser, process.env.JWT_SECRET);
+  } catch (err) {
+    return err;
   }
-
-  let newUser = await db.Users.create({
-    name, email, password: hash,
-  });
-  newUser = {
-    id: newUser.id,
-    name: newUser.name,
-    email: newUser.email,
-  };
-
-  return jwt.sign(newUser, process.env.JWT_SECRET);
 };
 
 exports.login = async (obj, { email, password }) => {
-  let user = await db.Users.findOne({ where: { email } });
-  if (!user) return console.log('user does not exist'); // eslint-disable-line no-console
+  const user = await db.Users.findOne({ where: { email } });
+  if (!user) throw new AuthenticationError('Email is wrong.');
   const valid = await bcrypt.compare(password, user.password);
-  if (!valid) return console.log('wrong password'); // eslint-disable-line no-console
-
-  user = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-  };
-
-  return jwt.sign(user, process.env.JWT_SECRET);
+  if (valid) {
+    const loggedInUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+    return jwt.sign(loggedInUser, process.env.JWT_SECRET);
+  }
+  throw new AuthenticationError('Password is wrong.');
 };
 
 exports.createRoadmap = async (obj, { UserId, title, category }, { user }) => {
