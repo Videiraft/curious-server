@@ -7,7 +7,6 @@ const { PORT } = process.env;
 
 db.sequelize.sync().then(() => {
   app.listen({ port: PORT }, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Apollo Server on http://localhost:${PORT}/graphql`);
+    console.log(`Apollo Server on http://localhost:${PORT}/graphql`); // eslint-disable-line no-console
   });
 });

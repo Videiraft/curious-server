@@ -1,15 +1,15 @@
 const { ApolloServer } = require('apollo-server');
 const jwt = require('jsonwebtoken');
-
 const typeDefs = require('./graphQL/schemas');
 const resolvers = require('./graphQL/resolvers');
 
-function getUser(rawToken) {
+function getUser(rawToken) { // eslint-disable-line consistent-return
   if (rawToken.length) {
+    // Bearer eyJ0eXAiOiJKV1Q...
     const token = rawToken.slice(7, rawToken.length);
+    // return the decoded user if the token is valid
     return jwt.verify(token, process.env.JWT_SECRET);
   }
-  return undefined;
 }
 
 const app = new ApolloServer({
