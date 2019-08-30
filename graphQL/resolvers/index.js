@@ -1,26 +1,26 @@
-
 const types = require('./types.resolvers');
 const queries = require('./queries.resolvers');
 const mutations = require('./mutations.resolvers');
+const { authMiddleware } = require('./middlewares');
 
 module.exports = {
   Query: {
-    roadmaps: queries.roadmaps,
-    topics: queries.topics,
+    roadmaps: authMiddleware(queries.roadmaps),
+    topics: authMiddleware(queries.topics),
   },
   Mutation: {
     signup: mutations.signup,
     login: mutations.login,
-    createRoadmap: mutations.createRoadmap,
-    updateRoadmap: mutations.updateRoadmap,
-    deleteRoadmap: mutations.deleteRoadmap,
-    createTopic: mutations.createTopic,
-    updateTopic: mutations.updateTopic,
-    deleteTopic: mutations.deleteTopic,
-    createChecklistItem: mutations.createChecklistItem,
-    updateChecklistItem: mutations.updateChecklistItem,
-    deleteChecklistItem: mutations.deleteChecklistItem,
-    copyRoadmap: mutations.copyRoadmap,
+    createRoadmap: authMiddleware(mutations.createRoadmap),
+    updateRoadmap: authMiddleware(mutations.updateRoadmap),
+    deleteRoadmap: authMiddleware(mutations.deleteRoadmap),
+    createTopic: authMiddleware(mutations.createTopic),
+    updateTopic: authMiddleware(mutations.updateTopic),
+    deleteTopic: authMiddleware(mutations.deleteTopic),
+    createChecklistItem: authMiddleware(mutations.createChecklistItem),
+    updateChecklistItem: authMiddleware(mutations.updateChecklistItem),
+    deleteChecklistItem: authMiddleware(mutations.deleteChecklistItem),
+    copyRoadmap: authMiddleware(mutations.copyRoadmap),
   },
   User: types.User,
   Roadmap: types.Roadmap,
